@@ -5,7 +5,7 @@
 This is a tagging-style custom element built entirely from the ground up on [Polymer](http://www.polymer-project.org) and iron-components.
 Aims to provide the same functionality as Selectize, Chosen2 and friends, using only vanilla JS and Polymer.
 
-** Integrates with native form posting values upon submit as expected - no additional code required! ** [how on earth?](#native-form-integration)
+_Integrates with native form posting values upon submit as expected - no additional code required!_ [how on earth?](#native-form-integration)
 
 ## Usage:
 
@@ -55,8 +55,8 @@ This component is functional but is still a work in progress. Pull requests are 
 # Native form integration
 You might have been puzzled about how exactly a non-native component may be submitted as part of a static form. You might also be aware that it's not possibble to append child elements to input elements. Thus it's not possible to enrich an input with shadow dom. 
 
-iron-select solves this by adding a hidden native input to the  form it belongs to, and reflecting its .value property to the hidden field. The name of the hidden field is determined by iron-input  You know the rest of the story.
-
+iron-select solves this by adding a hidden native input to the  form it belongs to, and reflecting its .value property to the hidden field. The name of the hidden field is determined by iron-input's name property. You know the rest of the story.
+Granted, this somewhat breaks the encapsulation and further experiments will show whether it's possible to have the input under iron-select's own light dom. However the benefits of not having to have any further js processing of the element overweigh this (subtle? temporary?) downside.
 
 ## Key todos:
 * Currently expects a raw array of objects from remote data source. Add an optional transform parameter with callback to traverse any server response.
