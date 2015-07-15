@@ -49,10 +49,21 @@ Aims to provide the same functionality as Selectize, Chosen2 and friends, using 
 * use ironSelect.select = [<array of value objects>] to set selection during runtime
 
 
-This component is functional but is still a work in progress.
+This component is functional but is still a work in progress. Comments and support are welcome.
+
+# Style
+Some styling is set internally.
+As `iron-select-item` elements live in the Light DOM they may be styled by component user just like any element.
+
+The intent is to make the component fully customizable.
+
+# Setting selected values
+** Using DOM **: Upon initialization (on 'ready') iron-select will pick up its Light DOM for `iron-select-item` elements and update its value accordingly. Attaching iron-select 
+
+** Using select property **: Assign an array of objects to the `select` property to entirely replace the current selection.
 
 # Dynamic integration
-Use `.value` property, it's always up to date. You may want to subscribe to the `'change'` event on the component and process `.value` there.
+Use `.value` property, it's always up to date. You may want to listen to the `'change'` event on the component and process `.value` in the event handler.
 
 <a name="native-form-integration"/>
 # Native form integration
@@ -71,6 +82,9 @@ Granted, this somewhat breaks the encapsulation and further experiments will sho
 * Demo
 * Proper packaging for customelements.io
 
-### Pull requests 
+## Pull requests 
 are most welcome
 
+
+## License
+MIT-Style
