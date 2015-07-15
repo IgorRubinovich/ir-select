@@ -236,7 +236,7 @@
 			* @param {object} [selection] should have sel[valueField] and/or sel[labelField] set
 			* @emits 
 			* @returns {Number} Returns the value of x for the equation.
-			* @emits #changed fires
+			* @emits #change `change` is fired whenever the value changes.
 			* @example
 			* adds iron-select-item with value set to 10
 			* .addSelection({ value : 10, label : "tag1" });
@@ -260,6 +260,8 @@
 			item.label = sel[this.labelField];
 
 			this.updateValue();
+			
+			this.fire('change');
 		},
 		
 		// adds item when user clicks on selectBox
