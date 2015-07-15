@@ -58,7 +58,7 @@ As `iron-select-item` elements live in the Light DOM they may be styled by compo
 The intent is to make the component fully customizable.
 
 # Setting selected values
-**Using DOM**: Upon initialization (on 'ready') iron-select will pick up its Light DOM for `iron-select-item` elements and update its value accordingly. Attaching iron-select 
+**Using DOM**: Upon initialization (on 'ready') iron-select will pick up its Light DOM for `iron-select-item` elements and update its value accordingly. Use standard DOM operations to add/remove `iron-select-item`-s during runtime and iron-select will update its value instantly.
 
 **Using the `.select` property**: Assign an array of objects to the `select` property to entirely replace the current selection.
 
