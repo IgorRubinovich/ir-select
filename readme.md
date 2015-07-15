@@ -7,7 +7,7 @@ Aims to provide the same functionality as Selectize, Chosen2 and friends, using 
 
 **Integrates with native form posting values upon submit as expected - no additional code required.** ([but how?](#native-form-integration))
 
-## Usage:
+## Usage
 
 		<iron-select
 			// placeholder for the input element
@@ -49,7 +49,7 @@ Aims to provide the same functionality as Selectize, Chosen2 and friends, using 
 * use ironSelect.select = [<array of value objects>] to set selection during runtime
 
 
-This component is functional but is still a work in progress. Pull requests are welcome.
+This component is functional but is still a work in progress. Contributions are welcome.
 
 # Style
 Some styling is set internally.
@@ -72,7 +72,7 @@ You might have been puzzled about how exactly a non-native component may be subm
 iron-select solves this by adding a hidden native input to the  form it belongs to, and reflecting its `.value` property to the hidden field. The name of the hidden field is determined by iron-input's `.name` property. You know the rest of the story.
 Granted, this somewhat breaks the encapsulation and further experiments will show whether it's possible to have the input under iron-select's own light dom. However the benefits of not having to have any further js processing of the element overweigh this (subtle? temporary?) downside.
 
-## Key todos:
+## Key todos
 * Currently expects a raw array of objects from remote data source. Add an optional transform parameter with callback to traverse any server response.
 * Support multi = false
 * More eventing
@@ -82,6 +82,9 @@ Granted, this somewhat breaks the encapsulation and further experiments will sho
 * Demo
 * Proper packaging for customelements.io
 
-### Pull requests 
-are most welcome
+## Contribution
+Pull requests are most welcome.
+
+## License
+[MIT](http://opensource.org/licenses/MIT)
 
