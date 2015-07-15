@@ -5,7 +5,7 @@
 This is a tagging-style custom element built entirely from the ground up on [Polymer](http://www.polymer-project.org) and iron-components.
 Aims to provide the same functionality as Selectize, Chosen2 and friends, using only vanilla JS and Polymer.
 
-** Integrates with native form posting values upon submit as expected - no additional code required! ** [how on earth?](#native-form-integration)
+**Integrates with native form posting values upon submit as expected - no additional code required.** ([but how?](#native-form-integration))
 
 ## Usage:
 
@@ -49,7 +49,7 @@ Aims to provide the same functionality as Selectize, Chosen2 and friends, using 
 * use ironSelect.select = [<array of value objects>] to set selection during runtime
 
 
-This component is functional but is still a work in progress. Comments and support are welcome.
+This component is functional but is still a work in progress. Pull requests are welcome.
 
 # Style
 Some styling is set internally.
@@ -58,14 +58,14 @@ As `iron-select-item` elements live in the Light DOM they may be styled by compo
 The intent is to make the component fully customizable.
 
 # Setting selected values
-** Using DOM **: Upon initialization (on 'ready') iron-select will pick up its Light DOM for `iron-select-item` elements and update its value accordingly. Attaching iron-select 
+**Using DOM**: Upon initialization (on 'ready') iron-select will pick up its Light DOM for `iron-select-item` elements and update its value accordingly. Attaching iron-select 
 
-** Using select property **: Assign an array of objects to the `select` property to entirely replace the current selection.
+**Using the `.select` property**: Assign an array of objects to the `select` property to entirely replace the current selection.
 
 # Dynamic integration
 Use `.value` property, it's always up to date. You may want to listen to the `'change'` event on the component and process `.value` in the event handler.
 
-<a name="native-form-integration"/>
+<a name="native-form-integration"></a>
 # Native form integration
 You might have been puzzled about how exactly a non-native component may be submitted as part of a static form. You might also be aware that it's not possibble to append child elements to input elements. Thus it's not possible to enrich an input with shadow dom. 
 
@@ -82,9 +82,6 @@ Granted, this somewhat breaks the encapsulation and further experiments will sho
 * Demo
 * Proper packaging for customelements.io
 
-## Pull requests 
+### Pull requests 
 are most welcome
 
-
-## License
-MIT-Style
