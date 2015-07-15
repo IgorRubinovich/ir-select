@@ -248,7 +248,7 @@
 			if(this.isSelected(sel))
 				return;
 			
-			if(!sel[this.valueField] && !this.allowCreate)
+			if(!sel[this.valueField] || ((this.allowCreate == true || this.allowCreate == 'true')))
 				return;
 			
 			var item = document.createElement('iron-select-item');
