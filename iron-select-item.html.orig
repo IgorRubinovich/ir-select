@@ -74,8 +74,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		{
 			this.blur();
 			this.$.container.classList.add('remove');
+<<<<<<< HEAD
+ 			console.log(this.$.container.classList)
+=======
 			Polymer.dom.flush();
 
+>>>>>>> feature/native-reflection
 			this.fire('item-close', this);
 		},
 		properties : {
@@ -107,8 +111,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 			if(preset && !this.label)
 				this.label = preset.textContent;
+<<<<<<< HEAD
 
 			this.fire('item-attached', this, { cancelable : true });
+=======
+		},
+		attached: function () {
+			console.log('item attached');
+			this.fire('item-attached', this);
+>>>>>>> feature/native-reflection
 		}
 	});
 	

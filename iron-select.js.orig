@@ -28,28 +28,46 @@
 			switch(e.keyCode)
 			{
 				case KEYS.ENTER: 
+<<<<<<< HEAD
+					if(!this.input.value)
+						return;
+					
+=======
 					if(this.preventDefault)
 						e.preventDefault();
 
 					if(!this.input.value)
 						return;
 
+>>>>>>> feature/native-reflection
 					val = this.$.selectBox.selectedItem ? this.suggestedOptions[this.$.selectBox.selected] : { title : this.input.value }
 					
 					this.addSelection(val);
 
 					this.input.value = "";
 					this.suggestedOptions = [];
+<<<<<<< HEAD
+
+					if(this.preventDefault)
+						e.preventDefault();
+					
+					this.$.selectBox.select();
+=======
 					
 					this.$.selectBox.select(-1);
 					console.log(this.$.selectBox.selected);
+>>>>>>> feature/native-reflection
 					
 					break;
 
 				case KEYS.ESC:
 					this.suggestedOptions = [];
 
+<<<<<<< HEAD
+					this.$.selectBox.select();
+=======
 					this.$.selectBox.select(-1);
+>>>>>>> feature/native-reflection
 
 					break;
 					
@@ -141,8 +159,15 @@
 					var focusIndex = children.length;
 					if(this.itemInFocus)
 					{
+<<<<<<< HEAD
+						focusIndex = children.indexOf(this.itemInFocus),
+						oldItemInFocus = this.itemInFocus;
+						
+						oldItemInFocus.close();
+=======
 						focusIndex = children.indexOf(this.itemInFocus)						
 						this.itemInFocus.close();						
+>>>>>>> feature/native-reflection
 					}
 					
 					if(focusIndex > 0)
@@ -159,8 +184,13 @@
 		
 		handleTyping : function(e)
 		{
+<<<<<<< HEAD
+			if(e.keyCode in KEYSHASH)
+				return;
+=======
 			if([KEYS.ESC, KEYS.DOWN, KEYS.UP].indexOf(e.keyCode) > -1)
 				return;					// we are either navigating or suggestions were closed in handleControlKeys and we don't want to reopen them until next typing
+>>>>>>> feature/native-reflection
 			
 			this.loadSuggestions();
 		},
@@ -176,6 +206,11 @@
 											+	this.dataSourceQueryField+"="+encodeURIComponent(".*" + this.input.value + ".*");
 
 				this.$.optionsLoader.generateRequest();
+<<<<<<< HEAD
+			}
+			else
+				this.suggestedOptions = [];
+=======
 				
 				this.$.selectBox.select(0)
 			}
@@ -184,6 +219,7 @@
 				this.$.selectBox.select(-1);
 				this.suggestedOptions = [];
 			}
+>>>>>>> feature/native-reflection
 
 		},
 		
@@ -224,6 +260,19 @@
 				val = sel[vf], label = sel[lf];
 			
 			return this.getSelected().filter(function(o) { 
+<<<<<<< HEAD
+												return 	o[vf] == val || 
+														(o[lf] == label && typeof val == 'undefined' && typeof o[vf] == 'undefined' ) 
+											}).length;
+		},
+		// adds selection where 
+		// will check 
+
+		/**
+			* adds a selection
+			* @param {object} [sel] should have sel[valueField] and/or sel[labelField] set
+			
+=======
 												console.log(o[vf] == val && val != 'undefined' && typeof o[vf] != 'undefined', o[lf] == label && typeof val == 'undefined' && typeof o[vf] == 'undefined')
 												return 	(o[vf] == val && val != 'undefined' && typeof o[vf] != 'undefined') || 
 														(o[lf] == label && typeof val == 'undefined' && typeof o[vf] == 'undefined' ) 
@@ -237,12 +286,17 @@
 			* @emits 
 			* @returns {Number} Returns the value of x for the equation.
 			* @emits #changed fires
+>>>>>>> feature/native-reflection
 			* @example
 			* adds iron-select-item with value set to 10
 			* .addSelection({ value : 10, label : "tag1" });
 			* @example
 			* adds iron-select item with value set to "tag2" if allowCreate is true
 			* .addSelection(label : "tag2" });
+<<<<<<< HEAD
+			* @returns {Number} Returns the value of x for the equation.
+=======
+>>>>>>> feature/native-reflection
 		*/
 		addSelection : function(sel) {
 			if(this.isSelected(sel))
@@ -258,11 +312,18 @@
 			
 			item.value = sel[this.valueField];
 			item.label = sel[this.labelField];
+<<<<<<< HEAD
+	
+			this.updateValue();
+		},
+		
+=======
 
 			this.updateValue();
 		},
 		
 		// adds item when user clicks on selectBox
+>>>>>>> feature/native-reflection
 		addFromSelector : function(e) {
 			console.log(e.detail);
 			var index = this.$.selectBox.items.indexOf(e.target);
@@ -273,6 +334,15 @@
 		},
 		
 		updateValue : function() {
+<<<<<<< HEAD
+			var vf = this.valueField, lf = this.labelField;
+			var selected = this.getSelected();
+			//console.log('updating value', !selected.length ? '' : selected.map(function(o) { return o[vf] ? o[vf] : o[lf] }).filter(function (o) { return o } ).join(','));
+			Polymer.dom(this).setAttribute('value', !selected.length ? '' : selected.map(function(o) { return o[vf] ? o[vf] : o[lf] }).filter(function (o) { return o } ).join(','));
+		},
+	
+		_selectedChanged: function(changeRecord) 
+=======
 			var vf = this.valueField, lf = this.labelField,
 				selected = this.getSelected(),
 			//console.log('updating value', !selected.length ? '' : selected.map(function(o) { return o[vf] ? o[vf] : o[lf] }).filter(function (o) { return o } ).join(','));
@@ -291,6 +361,7 @@
 			* @access private
 		*/
 		_selectedChanged: function() 
+>>>>>>> feature/native-reflection
 		{
 			var that = this,
 				lf = this.labelField,
@@ -312,11 +383,21 @@
 						+	encodeQuery(this.dataSourceQueryByValue) + "&"
 						+	this.dataSourceQueryField+"="+missingIdsList;
 
+<<<<<<< HEAD
+			this.$.selectionLoader.generateRequest();
+		
+			
+			this.fire('bind-value-changed', this.bindValue);
+		},
+		
+		ready	: function() {
+=======
 			this.$.selectionLoader.generateRequest();			
 		},
 		
 		ready	: function() {
 			var that = this, form;
+>>>>>>> feature/native-reflection
 
 			this.input = document.createElement("input");
 			
@@ -326,18 +407,38 @@
 			
 			Polymer.dom.flush();
 
+<<<<<<< HEAD
+			var that = this;
+=======
+>>>>>>> feature/native-reflection
 			this.input.addEventListener('click', function () { console.log("click!"); that.loadSuggestions(); } );
 			this.input.placeholder = this.placeholder;
 			
 			this.addEventListener('keyup', this.handleTyping);
 			this.addEventListener('keydown', this.handleControlKeys);
 			this.input.type = 'text';
+<<<<<<< HEAD
+			
+=======
 
+>>>>>>> feature/native-reflection
 			this.addEventListener('item-attached', function(ev) { 
 				that.updateValue();
 			});
 
 			this.addEventListener('item-close', function(ev) {
+<<<<<<< HEAD
+				if(this.itemInFocus == ev.detail)
+					delete this.itemInFocus;
+
+				var that = this;
+				setTimeout(function() {
+					Polymer.dom(that).removeChild(ev.detail);
+					that.updateValue();
+				}, 300)
+
+			})
+=======
 				//if(this.itemInFocus == ev.detail)
 				//	delete this.itemInFocus;
 
@@ -375,6 +476,7 @@
 				form.insertBefore(this.nativeClone, this);
 			}
 
+>>>>>>> feature/native-reflection
 		},
 		
 		_valueChanged: function()
@@ -382,6 +484,8 @@
 		},
 
 		properties : {
+<<<<<<< HEAD
+=======
 			/*
 				@namespace iron-select
 				@property {Array setter} - selects an entirely new set of values, old values are lost
@@ -402,6 +506,7 @@
 				
 				
 			*/
+>>>>>>> feature/native-reflection
 			selected : 				{ type : Array,		value : [],				notify : true	},
 
 			placeholder : 			{ type : String,	value : "type a tag",	notify : true	},
@@ -414,15 +519,22 @@
 			minLength :				{ type : Number,	value : 3,				notify : true	},
 
 			labelField : 			{ type : String,	value : "label",		notify : true	},
+<<<<<<< HEAD
+			valueField : 			{ type : String,	value : "value",			notify : true	},
+=======
 			valueField : 			{ type : String,	value : "value",		notify : true	},
+>>>>>>> feature/native-reflection
 
 			preventDefault : 		{ type : Boolean,	value : true,			notify : true	},
 	
 			allowCreate : 			{ type : Boolean,	value : true },
 			value : 				{ type : String,	value : "",				notify : true,  observer: '_valueChanged'	},
+<<<<<<< HEAD
+=======
 			
 			cloneToNative :			{ type : Boolean,	value : true },
 			name :					{ type : String, value : "" }
+>>>>>>> feature/native-reflection
 		},
 		
 		observers: [
@@ -437,4 +549,8 @@
 			return ""
 		return q.split("&").map(function(pair) { var res = pair.split("="); return [res[0], encodeURIComponent(res[1])].join("=") }).join('&');
 	}
+<<<<<<< HEAD
 })();
+=======
+})();
+>>>>>>> feature/native-reflection

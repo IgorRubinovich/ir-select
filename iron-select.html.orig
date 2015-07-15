@@ -10,9 +10,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../iron-input/iron-input.html">	
+<<<<<<< HEAD
+<link rel="import" href="../iron-selector/iron-selector.html">
+<link rel="import" href="iron-select-item.html">
+=======
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../iron-selector/iron-selector.html">
 <link rel="import" href="./iron-select-item.html">
+>>>>>>> feature/native-reflection
 
 
 <dom-module id="iron-select">
@@ -63,6 +68,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		#inputDiv {
 			padding : 10px;
 		}
+<<<<<<< HEAD
+=======
+
+		#selectBox {
+			position : static
+		}
+>>>>>>> feature/native-reflection
 		
 		#selectBox div
 		{
