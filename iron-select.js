@@ -248,7 +248,7 @@
 			if(this.isSelected(sel))
 				return;
 			
-			if(!sel[this.valueField] || ((this.allowCreate == true || this.allowCreate == 'true')))
+			if(!sel[this.valueField] && (this.allowCreate == false || this.allowCreate == 'false'))
 				return;
 			
 			var item = document.createElement('iron-select-item');
@@ -357,12 +357,11 @@
 
 			});			
 
-			
 			if(this.cloneToNative && this.name)
 			{
-				do {
-					form = this.parentElement;
-				} while(form.tagName.toLowerCase() != 'form');
+				form = this.parentElement;
+				while(form && form.tagName.toLowerCase() != 'form') 
+					form = form.parentElement;
 					
 				if(!form)
 					return;
@@ -420,7 +419,7 @@
 
 			preventDefault : 		{ type : Boolean,	value : true,			notify : true	},
 	
-			allowCreate : 			{ type : Boolean,	value : true },
+			allowCreate : 			{ type : String,	value : true },
 			value : 				{ type : String,	value : "",				notify : true,  observer: '_valueChanged'	},
 			
 			cloneToNative :			{ type : Boolean,	value : true },
