@@ -1,0 +1,23 @@
+{
+  "name": "iron-select",
+  "main": "iron-select.js",
+  "version": "0.1",
+  "authors": [
+    "Igor Rubinovich <igor.rubinovih@gmail.com>"
+  ],
+  "description": "Tag-style multiselect box for Polymer 1.0",
+  "keywords": [
+    "tags",
+    "multiselect",
+    "selectize",
+    "chosen"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
