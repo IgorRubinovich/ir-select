@@ -65,6 +65,9 @@ The intent is to make the component fully customizable.
 # Dynamic integration
 Use `.value` property, it's always up to date. You may want to listen to the `'change'` event on the component and process `.value` in the event handler.
 
+More events are coming, e. g. informing on duplicate entry.
+
+
 <a name="native-form-integration"></a>
 # Native form integration
 You might have been puzzled about how exactly a non-native component may be submitted as part of a static form. You might also be aware that it's not possibble to append child elements to input elements. Thus it's not possible to enrich an input with shadow dom. 

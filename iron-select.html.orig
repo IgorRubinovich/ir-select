@@ -50,14 +50,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			background : #ddd;
 		}
 		#inputDiv iron-selector .iron-selected  {
+<<<<<<< HEAD
+			background-color : white;
+=======
 			/* background-color : white; */
+>>>>>>> fix/backgrounds
 			box-shadow : 0 0 1px #555;
 			transform : translate(-1px,-1px);
 		}
 		
 		#inputDiv iron-selector div {
 			padding : 2px;
+<<<<<<< HEAD
+			background : #fafafa;
+=======
 			/* background : #fafafa; */
+>>>>>>> fix/backgrounds
 		}
 		
 		#inputDiv {
