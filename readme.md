@@ -31,13 +31,13 @@ See the component page: [http://igorrubinovich.github.io/ir-select/](http://igor
 
 					allow-create="false"
 				>
-					<ir-select-item label="label1" value="24"></iron-select-item>
-					<ir-select-item label="label2" value="42"></iron-select-item
+					<ir-select-item label="label1" value="24"></ir-select-item>
+					<ir-select-item label="label2" value="42"></ir-select-item
 				</ir-select>
 
 
 ### Setting selection
-- Preset in DOM: upon initialization (on 'ready') ir-select will pick up its Light DOM for `ir-select-item` elements and update its value accordingly. Use standard DOM operations to add/remove `iron-select-item`-s during runtime and iron-select will update its value instantly.
+- Preset in DOM: upon initialization (on 'ready') ir-select will pick up its Light DOM for `ir-select-item` elements and update its value accordingly. Use standard DOM operations to add/remove `ir-select-item`-s during runtime and ir-select will update its value instantly.
 - Add and remove ir-select-items dynamically during runtime and the component will update its values
 - Use `.setSelection()` to replace the entire set of selected items
 
@@ -51,8 +51,8 @@ See the component page: [http://igorrubinovich.github.io/ir-select/](http://igor
 #### Native form integration
 You might have been puzzled about how exactly a non-native component may be submitted as part of a static form. You might also be aware that it's not possibble to append child elements to input elements. Thus it's not possible to enrich an input with shadow dom. 
 
-iron-select solves this by adding a hidden native input to the  form it belongs to, and reflecting its `.value` property to the hidden field. The name of the hidden field is determined by iron-input's `.name` property. You know the rest of the story.
-Granted, this somewhat breaks the encapsulation and further experiments will show whether it's possible to have the input under iron-select's own light dom. However the benefits of not having to have any further js processing of the element overweigh this (subtle? temporary?) downside.
+ir-select solves this by adding a hidden native input to the  form it belongs to, and reflecting its `.value` property to the hidden field. The name of the hidden field is determined by iron-input's `.name` property. You know the rest of the story.
+Granted, this somewhat breaks the encapsulation and further experiments will show whether it's possible to have the input under ir-select's own light dom. However the benefits of not having to have any further js processing of the element overweigh this (subtle? temporary?) downside.
 
 
 ## Contribution
