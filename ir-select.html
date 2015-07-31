@@ -23,20 +23,20 @@ Integrates with native form posting values upon submit as expected - no addition
 
 				<ir-select
 					placeholder="Type a tag..."
-					dataSource="http://example.com/"
+					data-source="http://example.com/"
 					query-by-label="fields=title&query=.*[query].*"
 					query-by-value="fields=id&q="
 					
-					minLength="3"
+					min-length="3"
 					
 					data-path="envelope.data"
 					value-path="value"
 					label-path="label"
 					
-					preventDefault="true"
+					prevent-default="true"
 					
 					name="mySelectBox"
-					cloneToNative="true"
+					clone-to-native="true"
 
 					allow-create="false"
 				>

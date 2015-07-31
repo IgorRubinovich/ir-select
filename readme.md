@@ -14,11 +14,11 @@ See the component page: [http://igorrubinovich.github.io/ir-select/](http://igor
 
 				<ir-select
 					placeholder="Type a tag..."
-					dataSource="http://example.com/"
+					data-source="http://example.com/"
 					query-by-label="fields=title&query=.*[query].*"
 					query-by-value="fields=id&q="
 					
-					minLength="3"
+					min-length="3"
 					
 					data-path="envelope.data"
 					value-path="value"
@@ -27,7 +27,7 @@ See the component page: [http://igorrubinovich.github.io/ir-select/](http://igor
 					preventDefault="true"
 					
 					name="mySelectBox"
-					cloneToNative="true"
+					clone-to-native="true"
 
 					allow-create="false"
 				>
@@ -37,7 +37,7 @@ See the component page: [http://igorrubinovich.github.io/ir-select/](http://igor
 
 
 ### Setting selection
-- Preset in DOM: upon initialization (on 'ready') ir-select will pick up its Light DOM for `ir-select-item` elements and update its value accordingly. Use standard DOM operations to add/remove `ir-select-item`-s during runtime and ir-select will update its value instantly.
+- Preset in DOM: upon initialization (on 'ready') ir-select `ir-select-item`s in Light DOM are picked up as presets
 - Add and remove ir-select-items dynamically during runtime and the component will update its values
 - Use `.setSelection()` to replace the entire set of selected items
 
