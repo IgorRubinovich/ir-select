@@ -2,10 +2,6 @@
 
 ## Tagging-style multiselect box for Polymer 1.0
 
-# ir-select
-
-# Tagging-style multiselect box for Polymer 1.0
-
 This is a tagging-style custom element built entirely from the ground up on [Polymer](http://www.polymer-project.org) and iron-components.
 Aims to provide the same functionality as Selectize, Chosen2 and friends, using only vanilla JS and Polymer.
 
@@ -58,6 +54,9 @@ Granted, this somewhat breaks the encapsulation and further experiments will sho
 
 ## Docs and demo 
 See the component page: [http://igorrubinovich.github.io/ir-select/](http://igorrubinovich.github.io/ir-select/)
+
+## Contribution
+Issues and pull requests most welcome. Fork it [here](https://github.com/IgorRubinovich/ir-select).
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

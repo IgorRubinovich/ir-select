@@ -25,9 +25,8 @@ Integrates with native form posting values upon submit as expected - no addition
 				<ir-select
 					placeholder="Type a tag..."
 					dataSource="http://example.com/"
-					dataSourceQueryByLabel="fields=title"
-					dataSourceQueryByValue="fields=id"
-					dataSourceQueryField="q"
+					queryByLabel="fields=title"
+					queryByValue="fields=id"
 					
 					minLength="3"
 					
@@ -91,9 +90,12 @@ As expected:
 - Tests
 
 ## Contribution
-Pull requests are most welcome. Fork it [here](https://github.com/IgorRubinovich/ir-select).
+Issues and pull requests most welcome. Fork it [here](https://github.com/IgorRubinovich/ir-select).
 
+@group GUI Elements
+@element ir-select
 @demo demo/index.html
+@homepage http://igorrubinovich.github.io/ir-select/
 -->
 <dom-module id="ir-select">
   <style>

@@ -1,32 +1,3 @@
-/**
-	## Tagging-style multiselect box for Polymer 1.0
-	
-	@license
-	Copyright (c) 2015 Igor Rubinovich <igor.rubinovich@gmail.com>. All rights reserved.
-	This code may only be used under the MIT license found at http://opensource.org/licenses/MIT
-	
-	Tagging-style multiselect box for Polymer 1.0
-	Works with arrays of (node fs.Stats)[https://nodejs.org/api/fs.html#fs_class_fs_stats] objects.
-	Example:
-		<ir-filebrowser
-			host="http://localhost:5000"
-			ls-url="/medialib/json/ls/[path]"
-			ls-root-url-path="rootUrl"
-			ls-stats-path="ls"
-			post-url="/medialib/json/upload"
-			post-path-field="path"
-			list-property="ls"
-			-multi
-		>
-		</ir-filebrowser> 
-
-	@group GUI Elements
-	@element ir-select
-	@demo demo/index.html
-	@homepage https://github.com/IgorRubinovich/ir-select
- */
-
-
 (function () {
 	var KEYS = {
 		ENTER : 13,
