@@ -57,6 +57,6 @@ Granted, this somewhat breaks the encapsulation and further experiments will sho
 
 ## Contribution
 Issues and pull requests are most welcome. Fork it [here](https://github.com/IgorRubinovich/ir-select).
+
 ## License
 [MIT](http://opensource.org/licenses/MIT)
-
