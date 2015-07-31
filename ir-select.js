@@ -512,14 +512,17 @@ Select items defined in the array. Previous selection is lost.
 			/** Url to query */
 			dataSource : 			{ type : String,	value : "",				notify : true	},
 
-			/** Querystring template to query selections by value.  */
+/** 
+Querystring template to query suggestions by label. If contains the string `"[query]"` it will be replaced by the
+query value, otherwise query is appended to queryByLabel.
+*/
 			queryByLabel :{ type : String,	value : "",				notify : true	},
 
-			/** Querystring parameters to query suggestions by label */
+/** 
+Querystring template to query suggestions by value. If contains the string `"[query]"` it will be replaced by the
+query value, otherwise query is appended to queryByValue.
+*/
 			queryByValue :{ type : String,	value : "",				notify : true	},
-
-		//	 Querystring field to request for suggestions. Use [query] placeholder for complex values, e. g.: querySelct="[query]". */
-		//	dataSourceQueryField : 	{ type : String,	value : "q",			notify : true	},
 
 			/** Minimum length of search query required to send a request to the server */
 			minLength :				{ type : Number,	value : 3,				notify : true	},
