@@ -1,0 +1,51 @@
+{
+  "name": "ir-select",
+  "main": "ir-select.html",
+  "version": "0.5.1",
+  "authors": [
+    "Igor Rubinovich <igor.rubinovih@gmail.com>"
+  ],
+  "description": "Tag-style multiselect box for Polymer 1.0",
+  "keywords": [
+    "tags",
+    "multiselect",
+    "selectize",
+    "chosen",
+    "chosen2",
+    "tags",
+    "web-component",
+    "web-components",
+    "polymer",
+    "ajax",
+    "remote"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "iron-ajax": "PolymerElements/iron-ajax#~1.0.3",
+    "iron-input": "PolymerElements/iron-input#~1.0.4",
+    "iron-icons": "PolymerElements/iron-icons#~1.0.3",
+    "iron-selector": "PolymerElements/iron-selector#~1.0.2",
+    "webcomponentsjs": "~0.7.7"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#~1.0.5",
+    "web-component-tester": "*"
+  },
+  "homepage": "https://github.com/IgorRubinovich/ir-select",
+  "_release": "0.5.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.5.1",
+    "commit": "d1d46eeaded0d7a9fdce09c9674d24cfb96c1d74"
+  },
+  "_source": "git@github.com:IgorRubinovich/ir-select.git",
+  "_target": "*",
+  "_originalSource": "git@github.com:IgorRubinovich/ir-select.git"
+}
