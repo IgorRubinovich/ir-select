@@ -11,6 +11,9 @@ Aims to provide the same functionality as Selectize, Chosen2 and friends, using 
 
 Integrates with native form posting values upon submit as expected - no additional code required.
 
+## Docs and demo 
+See the component page: [http://igorrubinovich.github.io/ir-select/](http://igorrubinovich.github.io/ir-select/)
+
 ## Usage
 
 				<ir-select
@@ -55,9 +58,6 @@ You might have been puzzled about how exactly a non-native component may be subm
 
 iron-select solves this by adding a hidden native input to the  form it belongs to, and reflecting its `.value` property to the hidden field. The name of the hidden field is determined by iron-input's `.name` property. You know the rest of the story.
 Granted, this somewhat breaks the encapsulation and further experiments will show whether it's possible to have the input under iron-select's own light dom. However the benefits of not having to have any further js processing of the element overweigh this (subtle? temporary?) downside.
-
-## Docs and demo 
-See the component page: [http://igorrubinovich.github.io/ir-select/](http://igorrubinovich.github.io/ir-select/)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
