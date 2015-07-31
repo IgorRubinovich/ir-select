@@ -48,7 +48,7 @@ Integrates with native form posting values upon submit as expected - no addition
 ### Setting selection
 - Preset in DOM: upon initialization (on 'ready') ir-select will pick up its Light DOM for `ir-select-item` elements and update its value accordingly. Use standard DOM operations to add/remove `iron-select-item`-s during runtime and iron-select will update its value instantly.
 - Add and remove ir-select-items dynamically during runtime and the component will update its values
-- Using the `.selected` property: Assign an array of objects to the `select` property to entirely replace the current selection.
+- Use `.setSelection()` to replace the entire set of selected items
 
 ### Getting selection
 #### Dynamic integration
