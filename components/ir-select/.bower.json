@@ -38,14 +38,13 @@
     "webcomponentsjs": "~0.7.7"
   },
   "homepage": "https://github.com/IgorRubinovich/ir-select",
-  "_release": "b40aa3975b",
+  "_release": "55616d420e",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "b40aa3975bad421a25ff8b70b660607bd0af8ebf"
+    "commit": "55616d420e4f8417f9decc363ae2aaa2e1d1adb5"
   },
   "_source": "git@github.com:IgorRubinovich/ir-select.git",
   "_target": "*",
-  "_originalSource": "git@github.com:IgorRubinovich/ir-select.git",
-  "_direct": true
+  "_originalSource": "git@github.com:IgorRubinovich/ir-select.git"
 }
