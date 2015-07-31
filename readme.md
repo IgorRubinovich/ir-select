@@ -12,9 +12,8 @@ Integrates with native form posting values upon submit as expected - no addition
 				<ir-select
 					placeholder="Type a tag..."
 					dataSource="http://example.com/"
-					dataSourceQueryByLabel="fields=title"
-					dataSourceQueryByValue="fields=id"
-					dataSourceQueryField="q"
+					queryByLabel="fields=title"
+					queryByValue="fields=id"
 					
 					minLength="3"
 					
