@@ -205,7 +205,7 @@ Initiates loading of suggestions by optionsLoader
 */
 		_loadSuggestions : function () {
 			var that = this;
-			
+
 			if(this.input.value.length >= this.minLength)
 			{	
 				this.$.optionsLoader.url = constructQuery(this.dataSource, this.queryByLabel, this.input.value);
@@ -221,6 +221,16 @@ Initiates loading of suggestions by optionsLoader
 		},
 
 /**
+Returns list of suggested options at dataPath. Only required because .get doesn't return the array if it's the root and dataPath == ""
+
+@method _getSuggestedOptions
+@access private
+*/
+		_getSuggestedOptions : function() {
+			return this.dataPath ? this.get(this.dataPath, this.suggestedOptions) : this.suggestedOptions
+		},
+		
+/**
 Picks up `ir-select-item`s that are part of the local DOM during initialization
 
 @method _setPreselectedOptions
@@ -230,8 +240,8 @@ Picks up `ir-select-item`s that are part of the local DOM during initialization
 			var that = this;
 			
 			// reach to the envelope data
-			this.get(this.dataPath, this.loadedSelection)
-				.forEach(function(o) { 
+			(this.dataPath ? this.get(this.dataPath, this.loadedSelection) : this.loadedSelection)
+				.forEach(function(o) {
 					that.addSelection(o) 
 				});
 			
@@ -395,26 +405,20 @@ Updates `.value` attribute when selection changes
 				value,
 				that = this;
 
-			value = !selected.length ? '' : selected
+			this.value = value = !selected.length ? '' : selected
 												// if there's no value use label as value
 												.map(function(o) { return o.value ? o.value : o.label; })
 												// filter out empty
 												.filter(function (o) { return o } )
 												// simple CSV
-												.join(',');
-			
-			Polymer.dom(this).setAttribute('value', value);
-			
-			console.log('updating value to %s, nativeClone:', value, this.nativeClone, value	);
-			if(this.nativeClone)
-				this.nativeClone.setAttribute('value', value);
+												.join(',');			
 		},
 
 /**
 Select items defined in the array. Previous selection is lost.
 @param {Array} selection array of objects with labels and values at labelPath and valuePath respectively.
 */
-		setSelection: function(selection) 
+		setSelection : function(selection) 
 		{
 			var that = this,
 				lf = this.labelField,
@@ -424,7 +428,11 @@ Select items defined in the array. Previous selection is lost.
 				
 			var missingLabels = selection.filter(function(sel) { return !that.get(lf, sel) && that.get(vf, sel) });			
 			
-			this._updateValue();
+			/*this.addEventListener('item-attached', function(ev) { 
+				that._updateValue();
+			});*/
+			
+			//this._updateValue();
 			
 			if(!missingLabels.length)
 				return
@@ -433,6 +441,12 @@ Select items defined in the array. Previous selection is lost.
 			
 			this.$.selectionLoader.url = constructQuery(this.dataSource, this.queryByValue, missingIdsList);
 			this.$.selectionLoader.generateRequest();			
+		},
+		
+		ready : function() {
+			this.addEventListener('item-attached', function(ev) { 
+				that._updateValue();
+			});
 		},
 		
 		attached : function() {
@@ -450,11 +464,7 @@ Select items defined in the array. Previous selection is lost.
 			this.addEventListener('keyup', this._handleTyping);
 			this.addEventListener('keydown', this._handleControlKeys);
 			this.input.type = 'text';
-
-			this.addEventListener('item-attached', function(ev) { 
-				that._updateValue();
-			});
-
+			
 			this.addEventListener('item-close', function(ev) {
 				delete this.itemInFocus;
 				
@@ -468,35 +478,7 @@ Select items defined in the array. Previous selection is lost.
 					that._updateValue();
 				}, 300)
 
-			});			
-
-			console.log('cloneToNativeTarget')
-			if(this.cloneToNative && (this.name || this.cloneToNativeTarget))
-			{
-				if(this.cloneToNativeTarget)
-						this.nativeClone = document.querySelector(this.cloneToNativeTarget);
-				else
-				{
-					form = this.parentElement;
-					while(form && form.tagName.toLowerCase() != 'form') 
-						form = form.parentElement;
-						
-					if(!form)
-						return;
-				
-					this.nativeClone = document.createElement('input');
-					this.nativeClone.setAttribute("type", "hidden");
-					this.nativeClone.setAttribute("name", this.name);
-					this.name = "";
-					
-					this._updateValue();
-					
-					form.insertBefore(this.nativeClone, this);
-				}
-			}
-			
-			this._updateValue();
-
+			});
 		},
 				
 		properties : {
@@ -548,14 +530,6 @@ query value, otherwise query is appended to queryByValue.
 */
 			value : 				{ type : String,	value : "",				notify : true },
 			
-/** 
-	If cloneToNativeTarget is set ir-select value is reflected to the target element value.
-	If element is inside a &lt;form&gt; tag and has a name set, a sibling hidden element with the same name is created and 
-	its value is updated to reflect the ir-select element value. 
-*/
-			cloneToNative :			{ type : Boolean,	value : true },
-			/** If cloneToNative is true this selector will be used as target. Must have a `.value` property (like an input field) */
-			cloneToNativeTarget :   { type : String },
 			
 /* 
 Specifies input name, has effect when `.cloneToNative` is true and the element is inside a form.
@@ -568,6 +542,10 @@ like a regular input element. The value of the hidden element reflects the curre
 		observers: [
 			// '_selectedChanged(selected.splices)'
 		],
+		
+		behaviors: [
+			ir.ReflectToNativeBehavior
+		]
 		
 	});
 	

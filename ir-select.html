@@ -2,6 +2,7 @@
 <link rel="import" href="../iron-input/iron-input.html">	
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../iron-selector/iron-selector.html">
+<link rel="import" href="../ir-reflect-to-native-behavior/ir-reflect-to-native-behavior.html">
 <link rel="import" href="./ir-select-item.html">
 
 <!--
@@ -40,13 +41,13 @@ Integrates with native form posting values upon submit as expected - no addition
 
 					allow-create="false"
 				>
-					<ir-select-item label="label1" value="24"></ir-select-item>
-					<ir-select-item label="label2" value="42"></ir-select-item>
+					<ir-select-item label="label1" value="24"></iron-select-item>
+					<ir-select-item label="label2" value="42"></iron-select-item
 				</ir-select>
 
 
 ### Setting selection
-- Preset in DOM: upon initialization (on 'ready') ir-select will pick up its Light DOM for `ir-select-item` elements and update its value accordingly. Use standard DOM operations to add/remove `ir-select-item`-s during runtime and ir-select will update its value instantly.
+- Preset in DOM: upon initialization (on 'ready') ir-select will pick up its Light DOM for `ir-select-item` elements and update its value accordingly. Use standard DOM operations to add/remove `iron-select-item`-s during runtime and iron-select will update its value instantly.
 - Add and remove ir-select-items dynamically during runtime and the component will update its values
 - Use `.setSelection()` to replace the entire set of selected items
 
@@ -60,8 +61,8 @@ Integrates with native form posting values upon submit as expected - no addition
 #### Native form integration
 You might have been puzzled about how exactly a non-native component may be submitted as part of a static form. You might also be aware that it's not possibble to append child elements to input elements. Thus it's not possible to enrich an input with shadow dom. 
 
-ir-select solves this by adding a hidden native input to the  form it belongs to, and reflecting its `.value` property to the hidden field. The name of the hidden field is determined by iron-input's `.name` property. You know the rest of the story.
-Granted, this somewhat breaks the encapsulation and further experiments will show whether it's possible to have the input under ir-select's own light dom. However the benefits of not having to have any further js processing of the element overweigh this (subtle? temporary?) downside.
+iron-select solves this by adding a hidden native input to the  form it belongs to, and reflecting its `.value` property to the hidden field. The name of the hidden field is determined by iron-input's `.name` property. You know the rest of the story.
+Granted, this somewhat breaks the encapsulation and further experiments will show whether it's possible to have the input under iron-select's own light dom. However the benefits of not having to have any further js processing of the element overweigh this (subtle? temporary?) downside.
 
 ## Events
 - item-added, item-removed speak for themselves
@@ -71,7 +72,7 @@ Granted, this somewhat breaks the encapsulation and further experiments will sho
 ## Style
 Minimal styling is set internally.
 
-- `ir-select-item` elements live in the Light DOM they may be styled by component user just like any element.
+- `iron-select-item` elements live in the Light DOM they may be styled by component user just like any element.
 - Use `.ir-select-item-focus` class to to style item in focus.
 
 The intent is to make the component fully customizable.
@@ -157,7 +158,7 @@ Issues and pull requests are most welcome. Fork it [here](https://github.com/Igo
 
 		<div id="selectorContainer">
 			<iron-selector id='selectBox' selected-item='{{ selectedItem }}'>
-				<template is="dom-repeat" items="{{ get(dataPath, suggestedOptions) }}">
+				<template is="dom-repeat" items="{{ _getSuggestedOptions(suggestedOptions) }}">
 					<div on-mouseup="_addFromSelector" item="{{ item }}" value="{{ get(valuePath, item) }}">{{ get(labelPath, item) }}</div>
 				</template>
 			</iron-selector>

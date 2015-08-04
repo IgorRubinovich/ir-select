@@ -32,7 +32,7 @@ See the component page: [http://igorrubinovich.github.io/ir-select/](http://igor
 					allow-create="false"
 				>
 					<ir-select-item label="label1" value="24"></ir-select-item>
-					<ir-select-item label="label2" value="42"></ir-select-item>
+					<ir-select-item label="label2" value="42"></ir-select-item
 				</ir-select>
 
 
