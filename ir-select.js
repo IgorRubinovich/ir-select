@@ -444,6 +444,7 @@ Select items defined in the array. Previous selection is lost.
 		},
 		
 		ready : function() {
+			var that = this;
 			this.addEventListener('item-attached', function(ev) { 
 				that._updateValue();
 			});
@@ -464,6 +465,8 @@ Select items defined in the array. Previous selection is lost.
 			this.addEventListener('keyup', this._handleTyping);
 			this.addEventListener('keydown', this._handleControlKeys);
 			this.input.type = 'text';
+			
+			that._updateValue();
 			
 			this.addEventListener('item-close', function(ev) {
 				delete this.itemInFocus;
@@ -531,12 +534,6 @@ query value, otherwise query is appended to queryByValue.
 			value : 				{ type : String,	value : "",				notify : true },
 			
 			
-/* 
-Specifies input name, has effect when `.cloneToNative` is true and the element is inside a form.
-Under the hood a hidden &lt;input&gt; element with this name is created under the form dom to be submitted
-like a regular input element. The value of the hidden element reflects the current ir-select's .value property. 
-*/
-			name :					{ type : String, value : "" }
 		},
 		
 		observers: [
