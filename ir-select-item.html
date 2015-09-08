@@ -125,9 +125,8 @@ Fired when ir-select-item is attached to DOM.
 
 			if(preset && !this.label)
 				this.label = preset.textContent;
-		},
-		attached : function() {
-			this.fire('item-attached', this);
+
+			this.fire('item-attached', this, { cancelable : true });
 		}
 	});
 	

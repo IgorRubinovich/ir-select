@@ -1,7 +1,7 @@
 {
   "name": "ir-select",
   "main": "ir-select.html",
-  "version": "0.5.1",
+  "version": "0.5.3",
   "authors": [
     "Igor Rubinovich <igor.rubinovih@gmail.com>"
   ],
