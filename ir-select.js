@@ -468,14 +468,13 @@ Select items defined in the array. Previous selection is lost.
 				delete this.itemInFocus;
 				
 				this.fire('item-removed', ev.detail);
-				this.fire('change');
-				
 				var that = this;
 				
 				setTimeout(function() {
 					Polymer.dom(that).removeChild(ev.detail);
 					Polymer.dom.flush();
 					that._updateValue();
+					this.fire('change');
 				}, 300)
 
 			});			
