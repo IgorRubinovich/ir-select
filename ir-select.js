@@ -24,6 +24,10 @@ Fired when an item is removed. The ir-select-item staged for removal is passed t
 @event item-removed
 */
 /*
+Fired when item was added or removed, after the more specific events above.
+@event change
+*/
+/*
 Fired when a duplicate item is added to selection. The item is not added to selection.
 @event item-duplicate
 */
@@ -372,6 +376,7 @@ Adds a single item to the selection.
 			this._updateValue();
 			
 			this.fire('item-added', item);
+			this.fire('change');
 		},
 		
 /*
@@ -463,6 +468,7 @@ Select items defined in the array. Previous selection is lost.
 				delete this.itemInFocus;
 				
 				this.fire('item-removed', ev.detail);
+				this.fire('change');
 				
 				var that = this;
 				
