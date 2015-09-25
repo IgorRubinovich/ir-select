@@ -474,7 +474,7 @@ Select items defined in the array. Previous selection is lost.
 					Polymer.dom(that).removeChild(ev.detail);
 					Polymer.dom.flush();
 					that._updateValue();
-					this.fire('change');
+					that.fire('change');
 				}, 300)
 
 			});			
