@@ -145,7 +145,7 @@ Issues and pull requests are most welcome. Fork it [here](https://github.com/Igo
 		#inputDiv {
 			padding : 10px;
 		}
-		
+				
 		#selectBox div
 		{
 			cursor : default;
@@ -153,13 +153,20 @@ Issues and pull requests are most welcome. Fork it [here](https://github.com/Igo
 	</style>
 
     <div id="inputDiv" class="iron-font-body2">
-		<content select="ir-select-item,input">
+		<content select="ir-select-item">
+		</content>
+		<content select="input">
 		</content>
 		<div id="selectorContainer">
-			<iron-selector id='selectBox' selected-item='{{ selectedItem }}'>
-				<template is="dom-repeat" items="{{ suggestions }}">
-					<div on-mouseup="_addFromSelector" item="{{ item }}" value="{{ get(valuePath, item) }}">{{ get(labelPath, item) }}</div>
-				</template>
+			<!-- iron-selector id='selectBox' selected-item='{{ selectedItem }}'-->
+				<iron-dropdown on-tap="_addFromSelector" on-iron-overlay-closed="_onOverlayClosed" vertical-align='top' vertical-offset="25" id='overlay'>
+					<paper-menu class="dropdown-content" id='selectBox'>
+						<template is="dom-repeat" items="{{ suggestions }}">
+							<!-- div on-mouseup="_addFromSelector" item="{{ item }}" value="{{ get(valuePath, item) }}">{{ get(labelPath, item) }}</div -->
+							<paper-item item="{{ item }}" hidden$="{{ item.isHidden }}" value="{{ get(valuePath, item) }}">{{ get(labelPath, item) }}</paper-item>
+						</template>
+					</paper-menu>
+				<!--/iron-dropdown-->
 			</iron-selector>
 		</div>
 		
@@ -167,6 +174,7 @@ Issues and pull requests are most welcome. Fork it [here](https://github.com/Igo
 			id="optionsLoader"
 			url=""
 			method="GET"
+			on-response="_showOverlay"
 			handle-as="json"
 			debounce-duration="300"
 			last-response="{{ suggestedOptions }}"

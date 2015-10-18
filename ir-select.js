@@ -48,85 +48,47 @@ Handles control characters upon keydown in the textbox.
 @access private
 */ 
 		_handleControlKeys : function (e) {
-			var val, that = this;
+			var val, children, that = this;
 
-			if(this.itemInFocus && ([KEYS.LEFT, KEYS.RIGHT, KEYS.BACKSPACE].indexOf(e.keyCode) == -1))
-			{
-				this.itemInFocus.blur();
-				delete this.itemInFocus;
+			//if([KEYS.DOWN, KEYS.UP].indexOf(e.keyCode) > -1)
+			//	return;
+
+			if([KEYS.LEFT, KEYS.RIGHT, KEYS.BACKSPACE].indexOf(e.keyCode) == -1)
+			{				
+				if(this.itemInFocus)
+				{
+					this.itemInFocus.blur();
+					delete this.itemInFocus;
+				}
 			}
-				
-			this.input.focus();
+			else
+			{
+				if(!this.input.value)
+				{
+					e.preventDefault();
+					e.stopPropagation();
+				}
+
+				children = this.getChildItems();
+				if(this.input.value && !children.length) 
+					return;
+
+				this.$.overlay.close();
+			}
+
 			switch(e.keyCode)
 			{
-				case KEYS.ENTER: 
-					if(this.preventDefault)
-					{
-						e.preventDefault();
-						e.stopPropagation();
-						e.stopImmediatePropagation();
-					}
-
-					if(!this.input.value)
-						return;
-
-					// val = this.$.selectBox.selectedItem ? this.suggestedOptions[this.$.selectBox.selected] : { title : this.input.value }
-					
-					this.addSelection(this.$.selectBox.selectedItem.item);
-
-					this.input.value = "";
-					this.suggestedOptions = [];
-					
-					this.$.selectBox.select(-1);
-					
-					break;
-
-				case KEYS.ESC:
-					this.suggestedOptions = [];
-
-					this.$.selectBox.select(-1);
-
-					break;
-					
-				// up arrow - select previous item when iron-selector is open
-				case KEYS.UP: 
-					if(!this.$.selectBox.selectedItem && this.$.selectBox.items.length) 
-						this.$.selectBox.select	(this.$.selectBox.items[this.$.selectBox.items.length-1].value);
-					else if(this.$.selectBox.selectedItem)
-						this.$.selectBox.selectPrevious();						
-						// this.input.value = this.$.selectBox.selectedItem.innerHTML						
-					break;
-				
-				 // down arrow - select next item when iron-selector is open
-				case KEYS.DOWN:
-					if(!this.$.selectBox.selectedItem && this.$.selectBox.items.length) 
-						this.$.selectBox.select(0);
-					else
-						this.$.selectBox.selectNext();	
-						// this.input.value = this.$.selectBox.selectedItem.innerHTML						
-					break;
-					
-				// left arrow - focus on previous item
-				case KEYS.LEFT:					
-					if(this.input.value)
-						break;
-
-					var children = this.getChildItems(),
-						focusIndex = children.length;
-						
-					if(!children.length) break
-					
+				case KEYS.LEFT:
 					if(this.itemInFocus) // if not set focusIndex defaults to last one
 					{
 						focusIndex = children.indexOf(this.itemInFocus);
 						this.itemInFocus.blur();
 					}
 					
-					if(!focusIndex && !(focusIndex === 0))
-						break;
-					
 					if(focusIndex >	 0)
 						focusIndex--;
+					else
+						focusIndex = children.length - 1;
 
 					this.itemInFocus = children[focusIndex];
 					this.itemInFocus.focus();	
@@ -138,10 +100,6 @@ Handles control characters upon keydown in the textbox.
 					if(this.input.value || !this.itemInFocus)
 						break;
 
-					var children = this.getChildItems(),
-						focusIndex = 0;
-						
-					if(!children.length) break
 					
 					focusIndex = children.indexOf(this.itemInFocus);
 					this.itemInFocus.blur();
@@ -163,16 +121,11 @@ Handles control characters upon keydown in the textbox.
 
 					break;
 
-				// backspace or delete remove the itemInFocus
+				// backspace removes the itemInFocus
 				case KEYS.BACKSPACE:
 					if(this.input.value)
 						break;
 
-					var children = this.getChildItems();
-					
-					if(!children.length)
-						break;
-					
 					var focusIndex = children.length;
 					if(this.itemInFocus)
 					{
@@ -183,12 +136,38 @@ Handles control characters upon keydown in the textbox.
 					if(focusIndex > 0)
 						focusIndex--;
 					else if(children.length > 1)
-						focusIndex++;
+						this.focusIndex = children.length - 1;
 
 					this.itemInFocus = children[focusIndex];
 					this.itemInFocus.focus();
-					
+										
 					break;
+
+				case KEYS.DOWN:
+					this._showOverlay();
+					if(!this.$.selectBox.selectedItem)
+						this.$.selectBox.selected = 0;
+					else
+						this.$.selectBox.selectNext();
+					break;
+				
+				case KEYS.UP:
+					this._showOverlay();
+					if(!this.$.selectBox.selectedItem)
+						this.$.selectBox.selected = this.suggestions.length - 1;
+					else
+						this.$.selectBox.selectPrevious();
+					break;
+					
+				case KEYS.BACKSPACE:
+					e.preventDefault();
+				
+				case KEYS.ENTER:
+					this._addFromSelector();
+					e.preventDefault();
+				
+				default:
+					this.input.focus();
 			}
 		},
 /**
@@ -199,7 +178,7 @@ Handles alphanumeric on keyup in textbox.
 */
 		_handleTyping : function(e)
 		{
-			if([KEYS.ESC, KEYS.DOWN, KEYS.UP].indexOf(e.keyCode) > -1)
+			if([KEYS.ESC, KEYS.DOWN, KEYS.UP, KEYS.LEFT, KEYS.RIGHT, KEYS.BACKSPACE].indexOf(e.keyCode) > -1)
 				return;					// we are either navigating or suggestions were closed in _handleControlKeys and we don't want to reopen them until next typing
 			
 			this._loadSuggestions();
@@ -213,19 +192,43 @@ Initiates loading of suggestions by optionsLoader
 */
 		_loadSuggestions : function () {
 			var that = this;
-			
+
 			if(this.input.value.length >= this.minLength)
 			{	
 				this.$.optionsLoader.url = constructQuery(this.dataSource, this.queryByLabel, this.input.value);
 				this.$.optionsLoader.generateRequest();
-				this.$.selectBox.select(0)
+				//this.$.selectBox.select(0)
 			}
 			else
 			{
-				this.$.selectBox.select(-1);
 				this.suggestedOptions = [];
-			}
+			}			
+			this._showOverlay();
+		},
+		
+		/**
+		Initiates loading of suggestions by optionsLoader 
 
+		@method _loadSuggestions
+		@access private
+		*/
+		_showOverlay : function () {
+			this._fileterSelectedFromSuggested();
+			
+			if(this.$.overlay.opened || !this.suggestions || !this.suggestions.length)
+				return;
+
+			this.$.overlay.open();
+			
+			Polymer.dom.flush();
+			this.async(function() {
+				//this.set("keyEventTarget", this.input, this.$.selectBox);
+				this.input.focus();
+			});
+		},
+		
+		_onOverlayClosed : function() {
+			this.input.focus();
 		},
 
 /**
@@ -380,17 +383,23 @@ Adds a single item to the selection.
 		},
 		
 /*
-adds item when user clicks on selectBox
+adds selected suggestion to selection
 @access private
 */
-		_addFromSelector : function(e) {
-			var index = this.$.selectBox.items.indexOf(e.target);
+		_addFromSelector : function() {
+
 			
 			this.addSelection(this.$.selectBox.selectedItem.item);
-			//this.addSelection(this.suggestedOptions[this.$.selectBox.items.indexOf(e.target)]);
-
-			// this.$.selectBox.select(-1);
-			this.suggestedOptions = [];
+			
+			this.$.overlay.resetFit();
+			
+			this.notifyPath("suggestions.splice");
+			
+			this.async(function() {
+				this.$.overlay._updateOverlayPosition(); // IR: private method but the other way I found so far is to call .close() and .open()
+			});
+			
+			//this.$.selectBox.select(-1);
 		},
 
 /**
@@ -401,22 +410,59 @@ Updates `.value` attribute when selection changes
 			var vp = this.valuePath, 
 				lp = this.labelPath,
 				selected = this.getSelected(),
-				value,
+				value, valueArr,
 				that = this;
 
-			value = !selected.length ? '' : selected
+			valueArr = !selected.length ? '' : selected
 												// if there's no value use label as value
 												.map(function(o) { return o.value ? o.value : o.label; })
 												// filter out empty
 												.filter(function (o) { return o } )
-												// simple CSV
-												.join(',');
 			
+			value = valueArr.join(',');
+
 			Polymer.dom(this).setAttribute('value', value);
-			
+						
 			console.log('updating value to %s, nativeClone:', value, this.nativeClone, value	);
 			if(this.nativeClone)
 				this.nativeClone.setAttribute('value', value);
+			
+			this._fileterSelectedFromSuggested();
+		},
+		
+		_fileterSelectedFromSuggested : function() {
+			var that = this,
+				i, j,
+				valueArr,
+				doHide,
+				hiddenCount = 0;
+				
+			if(!this.suggestions)
+				return;
+
+			valueArr = this.getSelectedFlat().map(function(item) { return item.value });
+
+			for(j = 0; j < this.suggestions.length; j++)
+			{
+				doHide = false;
+				for(i = 0; i < valueArr.length; i++)
+					if(valueArr[i] == that.suggestions[j][this.valuePath])
+					{
+						doHide = true;
+						hiddenCount++;
+					}
+
+				that.set("suggestions." + j + ".isHidden", doHide);
+			}
+			
+			this._maxSuggestions = this.maxSuggestions + hiddenCount;
+			if(this._hiddenCount != hiddenCount)
+			{
+				this._hiddenCount = hiddenCount;
+				if(hiddenCount)
+					this._loadSuggestions();
+				
+			}
 		},
 
 /**
@@ -453,11 +499,14 @@ Select items defined in the array. Previous selection is lost.
 			
 			Polymer.dom.flush();
 
+			this.set("positionTarget", this.input, this.$.overlay);
+			
 			this.input.addEventListener('click', function () { that._loadSuggestions(); } );
 			this.input.placeholder = this.placeholder;
-			
+
 			this.addEventListener('keyup', this._handleTyping);
 			this.addEventListener('keydown', this._handleControlKeys);
+
 			this.input.type = 'text';
 
 			this.addEventListener('item-attached', function(ev) { 
@@ -506,6 +555,7 @@ Select items defined in the array. Previous selection is lost.
 			
 			this._updateValue();
 
+			this._maxSuggestions = this.maxSuggestions;
 		},
 		
 		_getSuggestions : function() {
@@ -516,6 +566,9 @@ Select items defined in the array. Previous selection is lost.
 			this.set("suggestions", r);
 		},
 
+		listeners : {
+			"overlay.iron-overlay-closed" : "_onOverlayClosed"
+		},
 				
 		properties : {
 			/** Selects an entirely new set of values, old values are lost */
@@ -526,6 +579,9 @@ Select items defined in the array. Previous selection is lost.
 
 			/** Maximum number of items that can be selected. -1 means unlimited. 1 allows automatic replacement of selection. */
 			maxItems : 				{ type : Number,	value : -1,			notify : true	},
+
+			/** Maximum number of items that can be selected. -1 means unlimited. 1 allows automatic replacement of selection. */
+			maxSuggestions :		{ type : Number,	value : 10,			notify : true	},
 
 			/** Url to query */
 			dataSource : 			{ type : String,	value : "",				notify : true	},
@@ -597,7 +653,10 @@ like a regular input element. The value of the hidden element reflects the curre
 		var queryString;
 		
 		value = encodeURIComponent(value),
-		queryString = queryTemplate.match(/\[query\]/) ? queryTemplate.replace(/\[query\]/, value) : queryTemplate + value;
+		queryString = /\[query\]/.test(queryTemplate) ? queryTemplate.replace(/\[query\]/, value) : queryTemplate + value;
+		
+		if(/\[maxItems\]/.test(queryString))
+			queryString = queryString.replace(/\[max-suggestions\]/, this._maxSuggestions);
 			
 		if(queryString && baseUrl && (baseUrl[baseUrl.length-1] != '?'))
 			baseUrl += '?'

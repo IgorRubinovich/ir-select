@@ -12,9 +12,10 @@ Integrates with native form posting values upon submit as expected - no addition
 				<ir-select
 					placeholder="Type a tag..."
 					data-source="http://example.com/"
-					query-by-label="fields=title&query=.*[query].*"
+					query-by-label="fields=title&query=.*[query].*&limit=[max-suggestions]"
 					query-by-value="fields=id&q="
-					
+
+					max-suggestions="10"
 					min-length="3"
 					
 					data-path="envelope.data"
