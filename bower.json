@@ -31,8 +31,10 @@
     "iron-ajax": "PolymerElements/iron-ajax#~1.0.3",
     "iron-input": "PolymerElements/iron-input#~1.0.4",
     "iron-icons": "PolymerElements/iron-icons#~1.0.3",
-    "iron-selector": "PolymerElements/iron-selector#~1.0.2",
-    "webcomponentsjs": "~0.7.7"
+    "webcomponentsjs": "~0.7.7",
+    "iron-dropdown": "PolymerElements/iron-dropdown#~1.0.6",
+    "paper-menu": "PolymerElements/paper-menu#~1.1.1",
+    "paper-item": "PolymerElements/paper-item#~1.0.5"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#~1.0.5",
