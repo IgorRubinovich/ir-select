@@ -422,8 +422,7 @@ Updates `.value` attribute when selection changes
 			value = valueArr.join(',');
 
 			Polymer.dom(this).setAttribute('value', value);
-						
-			console.log('updating value to %s, nativeClone:', value, this.nativeClone, value	);
+
 			if(this.nativeClone)
 				this.nativeClone.setAttribute('value', value);
 			
@@ -535,13 +534,6 @@ Select items defined in the array. Previous selection is lost.
 						this.nativeClone = document.querySelector(this.cloneToNativeTarget);
 				else
 				{
-					form = this.parentElement;
-					while(form && form.tagName.toLowerCase() != 'form') 
-						form = form.parentElement;
-						
-					if(!form)
-						return;
-				
 					this.nativeClone = document.createElement('input');
 					this.nativeClone.setAttribute("type", "hidden");
 					this.nativeClone.setAttribute("name", this.name);
@@ -549,7 +541,7 @@ Select items defined in the array. Previous selection is lost.
 					
 					this._updateValue();
 					
-					form.insertBefore(this.nativeClone, this);
+					Polymer.dom(this).appendChild(item, this.input);
 				}
 			}
 			
