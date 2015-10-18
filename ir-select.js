@@ -527,7 +527,6 @@ Select items defined in the array. Previous selection is lost.
 
 			});			
 
-			console.log('cloneToNativeTarget')
 			if(this.cloneToNative && (this.name || this.cloneToNativeTarget))
 			{
 				if(this.cloneToNativeTarget)
