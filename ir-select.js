@@ -413,7 +413,7 @@ Updates `.value` attribute when selection changes
 				value, valueArr,
 				that = this;
 
-			valueArr = !selected.length ? '' : selected
+			valueArr = !selected.length ? [] : selected
 												// if there's no value use label as value
 												.map(function(o) { return o.value ? o.value : o.label; })
 												// filter out empty
