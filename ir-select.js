@@ -541,7 +541,7 @@ Select items defined in the array. Previous selection is lost.
 					
 					this._updateValue();
 					
-					Polymer.dom(this).appendChild(item, this.input);
+					Polymer.dom(this).appendChild(this.nativeClone, this);
 				}
 			}
 			
