@@ -339,13 +339,22 @@ Adds a single item to the selection.
 @access public
 */
 		addSelection : function(obj) {
-			var canAdd = true;
+			var canAdd = true, t;
 
 			if(!this.get(this.valuePath, obj))
 			{
 				this.fire('item-unknown', obj);
 				if(this.allowCreate == false || this.allowCreate == 'false')
-					canAdd = false;
+					canAdd = false
+				else
+				if(typeof t != 'object')
+				{
+					t = {};
+					this.set(this.valuePath, obj, t);
+					this.set(this.labelPath, obj, t);
+					
+					obj = t;
+				}
 			}
 			
 			if(this.maxItems > 1 && this.getSelected().length + 1 > this.maxItems)
@@ -388,17 +397,23 @@ adds selected suggestion to selection
 */
 		_addFromSelector : function() {
 
-			
-			this.addSelection(this.$.selectBox.selectedItem.item);
-			
-			this.$.overlay.resetFit();
-			
-			this.notifyPath("suggestions.splice");
-			
+			if(this.$.selectBox.selectedItem)
+			{
+				this.addSelection(this.$.selectBox.selectedItem.item);
+				this.$.overlay.resetFit();
+				this.notifyPath("suggestions.splice");
+				this.input.value = "";
+			}
+			else
+			if(this.allowCreate)
+			{
+				this.addSelection(this.input.value)
+				this.input.value = "";
+			}
+
 			this.async(function() {
 				this.$.overlay._updateOverlayPosition(); // IR: private method but the other way I found so far is to call .close() and .open()
 			});
-			
 			//this.$.selectBox.select(-1);
 		},
 
