@@ -344,7 +344,7 @@ Adds a single item to the selection.
 			if(!this.get(this.valuePath, obj))
 			{
 				this.fire('item-unknown', obj);
-				if(this.allowCreate == false || this.allowCreate == 'false')
+				if(!this.allowCreate)
 					canAdd = false
 				else
 				if(typeof t != 'object')
@@ -618,11 +618,8 @@ query value, otherwise query is appended to queryByValue.
 			/** Computed property equal to suggested options at dataPath */
 			suggestions : { type : String,	value : "",	notify : true },
 
-			/** Prevents submission when the control in a static form and user selects an item with Enter key. */
-			preventDefault : 		{ type : Boolean,	value : true,			notify : true	},
-	
 			/** Allows adding (new) element without value. The new label will be used instead of the value in `value` property. */
-			allowCreate : 			{ type : String,	value : "true" },
+			allowCreate : 			{ type : Boolean },
 
 /*
 [read-only] a comma delimited list of "valueField" properties of the selected objects. 
