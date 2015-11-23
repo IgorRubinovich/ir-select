@@ -8,7 +8,7 @@
 		RIGHT : 39,
 		BACKSPACE : 8
 	};
-	
+ 	
 	var KEYSHASH = {};
 	Object.keys(KEYS).forEach(function(k) { KEYSHASH[KEYS[k]] = true });
 		
