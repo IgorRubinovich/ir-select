@@ -191,11 +191,13 @@ Initiates loading of suggestions by optionsLoader
 @access private
 */
 		_loadSuggestions : function () {
-			var that = this;
+			var that = this, toSearch;
 
-			if(this.input.value.length >= this.minLength)
+			toSearch = this.input.value || this.preType;
+			
+			if(toSearch.length >= this.minLength)
 			{	
-				this.$.optionsLoader.url = constructQuery(this.dataSource, this.queryByLabel, this.input.value);
+				this.$.optionsLoader.url = constructQuery(this.dataSource, this.queryByLabel, toSearch);
 				this.$.optionsLoader.generateRequest();
 				//this.$.selectBox.select(0)
 			}
@@ -207,9 +209,9 @@ Initiates loading of suggestions by optionsLoader
 		},
 		
 		/**
-		Initiates loading of suggestions by optionsLoader 
+		show suggestions dropdown
 
-		@method _loadSuggestions
+		@method _showOverlay
 		@access private
 		*/
 		_showOverlay : function () {
@@ -577,6 +579,9 @@ Select items defined in the array. Previous selection is lost.
 		},
 				
 		properties : {
+			/** Populates input textbox with this value withough affecting selection */
+			preType : 				{ type : String,		value : [],				notify : true	},
+
 			/** Selects an entirely new set of values, old values are lost */
 			selected : 				{ type : Array,		value : [],				notify : true	},
 
