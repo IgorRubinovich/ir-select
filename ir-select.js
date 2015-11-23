@@ -579,8 +579,8 @@ Select items defined in the array. Previous selection is lost.
 		},
 				
 		properties : {
-			/** Populates input textbox with this value withough affecting selection */
-			preType : 				{ type : String,		value : [],				notify : true	},
+			/** Value to look for when the input box is empty */
+			preType : 				{ type : String,		value : "",				notify : true	},
 
 			/** Selects an entirely new set of values, old values are lost */
 			selected : 				{ type : Array,		value : [],				notify : true	},

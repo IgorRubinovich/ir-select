@@ -23,6 +23,8 @@ Integrates with native form posting values upon submit as expected - no addition
 					label-path="label"
 					
 					prevent-default="true"
+
+					pre-type="<text to search for when the box is empty>"
 					
 					name="mySelectBox"
 					clone-to-native="true"
