@@ -15,6 +15,8 @@ Integrates with native form posting values upon submit as expected - no addition
 					query-by-label="fields=title&query=.*[query].*&limit=[max-suggestions]"
 					query-by-value="fields=id&q="
 
+					max-items="3 <max items that may be selected>"
+					
 					max-suggestions="10"
 					min-length="3"
 					
