@@ -679,3 +679,4 @@ like a regular input element. The value of the hidden element reflects the curre
 		return q.split("&").map(function(pair) { var res = pair.split("="); return [res[0], encodeURIComponent(res[1])].join("=") }).join('&');
 	}
 })();
+ 
