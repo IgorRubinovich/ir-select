@@ -141,6 +141,8 @@ Handles control characters upon keydown in the textbox.
 					this.itemInFocus = children[focusIndex];
 					this.itemInFocus.focus();
 										
+					e.preventDefault();
+
 					break;
 
 				case KEYS.DOWN:
