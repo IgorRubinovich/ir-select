@@ -191,8 +191,9 @@ Initiates loading of suggestions by optionsLoader
 
 @method _loadSuggestions
 @access private
+@param showOverlay - show or not the overlay upon load, true by default
 */
-		_loadSuggestions : function () {
+		_loadSuggestions : function (showOverlay) {
 			var that = this, toSearch;
 
 			toSearch = this.input.value || this.preType;
@@ -207,7 +208,10 @@ Initiates loading of suggestions by optionsLoader
 			{
 				this.suggestedOptions = [];
 			}			
-			this._showOverlay();
+			
+			//if(typeof dontShowOverlay == 'undefined' || showOverlay)
+			//	this._showOverlay();
+			
 		},
 		
 		/**
@@ -400,7 +404,8 @@ adds selected suggestion to selection
 @access private
 */
 		_addFromSelector : function() {
-
+			var that = this;
+			
 			if(this.$.selectBox.selectedItem)
 			{
 				this.addSelection(this.$.selectBox.selectedItem.item);
@@ -415,9 +420,10 @@ adds selected suggestion to selection
 				this.input.value = "";
 			}
 
-			this.async(function() {
-				this.$.overlay._updateOverlayPosition(); // IR: private method but the other way I found so far is to call .close() and .open()
-			});
+			setTimeout(function() {
+				//this.$.overlay._updateOverlayPosition(); // IR: private method but the other way I found so far is to call .close() and .open()
+				that.$.overlay.close();
+			}, 0);
 			//this.$.selectBox.select(-1);
 		},
 
@@ -477,8 +483,8 @@ Updates `.value` attribute when selection changes
 			if(this._hiddenCount != hiddenCount)
 			{
 				this._hiddenCount = hiddenCount;
-				if(hiddenCount)
-					this._loadSuggestions();
+				//if(hiddenCount)
+				//	this._loadSuggestions(false);
 				
 			}
 		},
