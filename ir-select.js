@@ -63,15 +63,12 @@ Handles control characters upon keydown in the textbox.
 			}
 			else
 			{
-				if(!this.input.value)
-				{
+				if(e.target != this.input)
 					e.preventDefault();
-					e.stopPropagation();
-				}
 
 				children = this.getChildItems();
-				if(this.input.value && !children.length) 
-					return;
+				if((e.target != this.input) && !children.length) 
+					e.preventDefault();;
 
 				this.$.overlay.close();
 			}
@@ -90,8 +87,8 @@ Handles control characters upon keydown in the textbox.
 					else
 						focusIndex = children.length - 1;
 
-					this.itemInFocus = children[focusIndex];
-					this.itemInFocus.focus();	
+					if(this.itemInFocus = children[focusIndex])
+						this.itemInFocus.focus();	
 
 					break;
 
@@ -110,8 +107,8 @@ Handles control characters upon keydown in the textbox.
 					if(focusIndex < children.length-1)
 					{
 						focusIndex++;
-						this.itemInFocus = children[focusIndex];
-						this.itemInFocus.focus();
+						if(this.itemInFocus = children[focusIndex])
+							this.itemInFocus.focus();
 						
 						break;
 					}
@@ -123,7 +120,7 @@ Handles control characters upon keydown in the textbox.
 
 				// backspace removes the itemInFocus
 				case KEYS.BACKSPACE:
-					if(this.input.value)
+					if(e.target == this.input && this.input.value)
 						break;
 
 					var focusIndex = children.length;
@@ -138,8 +135,8 @@ Handles control characters upon keydown in the textbox.
 					else if(children.length > 1)
 						this.focusIndex = children.length - 1;
 
-					this.itemInFocus = children[focusIndex];
-					this.itemInFocus.focus();
+					if(this.itemInFocus = children[focusIndex])
+						this.itemInFocus.focus();
 										
 					e.preventDefault();
 
