@@ -403,12 +403,14 @@ Adds a single item to the selection.
 adds selected suggestion to selection
 @access private
 */
-		_addFromSelector : function() {
+		_addFromSelector : function(item) {
 			var that = this;
 			
-			if(this.$.selectBox.selectedItem)
+			item = item || this.$.selectBox.selectedItem;
+			
+			if(item)
 			{
-				this.addSelection(this.$.selectBox.selectedItem.item);
+				this.addSelection(item);
 				this.$.overlay.resetFit();
 				this.notifyPath("suggestions.splice");
 				this.input.value = "";
@@ -425,6 +427,10 @@ adds selected suggestion to selection
 				that.$.overlay.close();
 			}, 0);
 			//this.$.selectBox.select(-1);
+		},
+		
+		clickedSuggestion : function(e) {
+			this._addFromSelector(e.target.item);
 		},
 
 /**
