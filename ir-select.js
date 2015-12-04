@@ -390,6 +390,7 @@ Adds a single item to the selection.
 			Polymer.dom(this).insertBefore(item, this.input);
 			Polymer.dom.flush();			
 
+			item.item = obj;
 			item.value = this.get(this.valuePath, obj);
 			item.label = this.get(this.labelPath, obj);
 
@@ -406,7 +407,7 @@ adds selected suggestion to selection
 		_addFromSelector : function(item) {
 			var that = this;
 			
-			item = item || this.$.selectBox.selectedItem;
+			item = item || (this.$.selectBox.selectedItem && this.$.selectBox.selectedItem.item);
 			
 			if(item)
 			{
