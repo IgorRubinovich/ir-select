@@ -157,7 +157,7 @@ Issues and pull requests are most welcome. Fork it [here](https://github.com/Igo
 		</content>
 		<content select="input">
 		</content>
-		<iron-dropdown on-tap="clickedSuggestion" on-iron-overlay-closed="_onOverlayClosed" vertical-align='top' vertical-offset="25" id='overlay'>
+		<iron-dropdown on-click="clickedSuggestion" on-iron-overlay-closed="_onOverlayClosed" vertical-align='top' vertical-offset="25" id='overlay'>
 			<paper-menu class="dropdown-content" id='selectBox'>
 				<template is="dom-repeat" items="{{ suggestions }}">
 					<paper-item item="{{ item }}" hidden$="{{ item.isHidden }}" value="{{ get(valuePath, item) }}">{{ get(labelPath, item) }}</paper-item>

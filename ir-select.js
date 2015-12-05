@@ -177,7 +177,7 @@ Handles alphanumeric on keyup in textbox.
 */
 		_handleTyping : function(e)
 		{
-			if([KEYS.ESC, KEYS.DOWN, KEYS.UP, KEYS.LEFT, KEYS.RIGHT, KEYS.BACKSPACE].indexOf(e.keyCode) > -1)
+			if([KEYS.ESC, KEYS.DOWN, KEYS.UP, KEYS.LEFT, KEYS.RIGHT, KEYS.BACKSPACE, KEYS.ENTER].indexOf(e.keyCode) > -1)
 				return;					// we are either navigating or suggestions were closed in _handleControlKeys and we don't want to reopen them until next typing
 			
 			this._loadSuggestions();
