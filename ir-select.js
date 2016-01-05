@@ -134,6 +134,11 @@ Handles control characters upon keydown in the textbox.
 						focusIndex--;
 					else if(children.length > 1)
 						this.focusIndex = children.length - 1;
+					else
+					{
+						e.stopPropagation();
+						e.stopImmediatePropagation();
+					}
 
 					if(this.itemInFocus = children[focusIndex])
 						this.itemInFocus.focus();
@@ -147,7 +152,11 @@ Handles control characters upon keydown in the textbox.
 					if(!this.$.selectBox.selectedItem)
 						this.$.selectBox.selected = 0;
 					else
+					{
 						this.$.selectBox.selectNext();
+						while(this.$.selectBox.selectedItem.isHidden)
+							this.$.selectBox.selectNext();
+					}
 					break;
 				
 				case KEYS.UP:
@@ -155,11 +164,12 @@ Handles control characters upon keydown in the textbox.
 					if(!this.$.selectBox.selectedItem)
 						this.$.selectBox.selected = this.suggestions.length - 1;
 					else
+					{
 						this.$.selectBox.selectPrevious();
+						while(this.$.selectBox.selectedItem.isHidden)
+							this.$.selectBox.selectPrevious();
+					}
 					break;
-					
-				case KEYS.BACKSPACE:
-					e.preventDefault();
 				
 				case KEYS.ENTER:
 					this._addFromSelector();
@@ -179,6 +189,8 @@ Handles alphanumeric on keyup in textbox.
 		{
 			if([KEYS.ESC, KEYS.DOWN, KEYS.UP, KEYS.LEFT, KEYS.RIGHT, KEYS.BACKSPACE, KEYS.ENTER].indexOf(e.keyCode) > -1)
 				return;					// we are either navigating or suggestions were closed in _handleControlKeys and we don't want to reopen them until next typing
+			else
+				this.input.focus();
 			
 			this._loadSuggestions();
 		},
@@ -193,7 +205,12 @@ Initiates loading of suggestions by optionsLoader
 		_loadSuggestions : function (showOverlay) {
 			var that = this, toSearch;
 
-			toSearch = this.input.value || this.preType;
+			toSearch = (this.input.value || this.preType).trim();
+			
+			if(this._lastSearch != toSearch)
+				this._lastSearch = toSearch;
+			else
+				return;
 			
 			if(toSearch.length >= this.minLength)
 			{	
@@ -204,11 +221,7 @@ Initiates loading of suggestions by optionsLoader
 			else
 			{
 				this.suggestedOptions = [];
-			}			
-			
-			//if(typeof dontShowOverlay == 'undefined' || showOverlay)
-			//	this._showOverlay();
-			
+			}
 		},
 		
 		/**
@@ -218,22 +231,33 @@ Initiates loading of suggestions by optionsLoader
 		@access private
 		*/
 		_showOverlay : function () {
-			this._fileterSelectedFromSuggested();
+			if(!this.suggestions || !this.suggestions.length)
+			{
+				this.$.overlay.close();
+				return
+			}
 			
-			if(this.$.overlay.opened || !this.suggestions || !this.suggestions.length)
+			this._fileterSelectedFromSuggested();
+
+			//this.input.focus();
+
+			if(this.$.overlay.opened)
 				return;
 
 			this.$.overlay.open();
-			
 			Polymer.dom.flush();
-			this.async(function() {
-				//this.set("keyEventTarget", this.input, this.$.selectBox);
-				this.input.focus();
-			});
 		},
 		
 		_onOverlayClosed : function() {
-			this.input.focus();
+			this.async(function() {
+				this.input.focus();
+			});
+		},
+
+		_onOverlayOpened : function() {
+			this.async(function() {
+				this.input.focus();
+			});
 		},
 
 /**
@@ -404,7 +428,7 @@ adds selected suggestion to selection
 		_addFromSelector : function(item) {
 			var that = this;
 			
-			item = item || (this.$.selectBox.selectedItem && this.$.selectBox.selectedItem.item);
+			item = item || (this.$.overlay.opened && this.$.selectBox.selectedItem && this.$.selectBox.selectedItem.item);
 			
 			if(item)
 			{
@@ -414,17 +438,15 @@ adds selected suggestion to selection
 				this.input.value = "";
 			}
 			else
-			if(this.allowCreate)
+			if(this.allowCreate && this.input.value.trim())
 			{
 				this.addSelection(this.input.value)
 				this.input.value = "";
 			}
 
-			setTimeout(function() {
-				//this.$.overlay._updateOverlayPosition(); // IR: private method but the other way I found so far is to call .close() and .open()
-				that.$.overlay.close();
-			}, 0);
-			//this.$.selectBox.select(-1);
+			that.$.overlay.close();
+			
+			that.input.focus();
 		},
 		
 		clickedSuggestion : function(e) {
@@ -532,8 +554,21 @@ Select items defined in the array. Previous selection is lost.
 			this.input.addEventListener('click', function () { that._loadSuggestions(); } );
 			this.input.placeholder = this.placeholder;
 
-			this.addEventListener('keyup', this._handleTyping);
-			this.addEventListener('keydown', this._handleControlKeys);
+			this.addEventListener('keydown', this._handleControlKeys.bind(this));
+			this.addEventListener('keyup', this._handleTyping.bind(this));
+
+			this.$.selectBox.addEventListener('keydown', function(ev) {
+				console.log('checking keydown on ir-select');
+				var k = ev.keyCode || ev.which;
+				if(document.activeElement == this.input || document.activeElement.is == 'ir-select-item' || (k != KEYS.BACKSPACE && k != KEYS.ENTER))
+					return;
+				
+				ev.preventDefault();
+				this.input.focus();
+				
+				//ev.stopPropagation();
+				//ev.stopImmediatePropagation();
+			}.bind(this));
 
 			this.input.type = 'text';
 
@@ -545,15 +580,14 @@ Select items defined in the array. Previous selection is lost.
 				delete this.itemInFocus;
 				
 				this.fire('item-removed', ev.detail);
-				var that = this;
 				
-				setTimeout(function() {
-					Polymer.dom(that).removeChild(ev.detail);
-					Polymer.dom.flush();
-					that._updateValue();
-					that.fire('change');
-				}, 300)
-
+				if(!(ev.detail && Polymer.dom(ev.detail).parentNode == this))
+					return;
+				
+				Polymer.dom(this).removeChild(ev.detail);
+				Polymer.dom.flush();
+				this._updateValue();
+				this.fire('change');
 			});			
 
 			if(this.cloneToNative && (this.name || this.cloneToNativeTarget))
