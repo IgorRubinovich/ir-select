@@ -248,7 +248,7 @@ Initiates loading of suggestions by optionsLoader
 			Polymer.dom.flush();
 		},
 		
-		_onOverlayClosed : function() {
+		_onOverlayClosed : function(ev) {
 			this.async(function() {
 				this.input.focus();
 			});
@@ -551,14 +551,13 @@ Select items defined in the array. Previous selection is lost.
 
 			this.set("positionTarget", this.input, this.$.overlay);
 			
-			this.input.addEventListener('click', function () { that._loadSuggestions(); } );
+			this.input.addEventListener('click', function (e) { that._loadSuggestions(); e.stopPropagation(); e.stopImmediatePropagation(); } );
 			this.input.placeholder = this.placeholder;
 
 			this.addEventListener('keydown', this._handleControlKeys.bind(this));
 			this.addEventListener('keyup', this._handleTyping.bind(this));
 
 			this.$.selectBox.addEventListener('keydown', function(ev) {
-				console.log('checking keydown on ir-select');
 				var k = ev.keyCode || ev.which;
 				if(document.activeElement == this.input || document.activeElement.is == 'ir-select-item' || (k != KEYS.BACKSPACE && k != KEYS.ENTER))
 					return;
@@ -670,7 +669,7 @@ query value, otherwise query is appended to queryByValue.
 			suggestions : { type : String,	value : "",	notify : true },
 
 			/** Allows adding (new) element without value. The new label will be used instead of the value in `value` property. */
-			allowCreate : 			{ type : Boolean },
+			allowCreate : 			{ type : Boolean, value : false, notify : true },
 
 /*
 [read-only] a comma delimited list of "valueField" properties of the selected objects. 
