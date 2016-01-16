@@ -210,7 +210,7 @@ Initiates loading of suggestions by optionsLoader
 			if(this._lastSearch != toSearch)
 				this._lastSearch = toSearch;
 			else
-				return;
+				this._showOverlay();
 			
 			if(toSearch.length >= this.minLength)
 			{	
