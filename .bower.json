@@ -1,7 +1,7 @@
 {
   "name": "ir-select",
   "main": "ir-select.html",
-  "version": "0.8.3",
+  "version": "0.8.2",
   "authors": [
     "Igor Rubinovich <igor.rubinovih@gmail.com>"
   ],
@@ -39,5 +39,15 @@
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#~1.0.5",
     "web-component-tester": "*"
-  }
+  },
+  "homepage": "https://github.com/IgorRubinovich/ir-select",
+  "_release": "0.8.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.8.2",
+    "commit": "7f95b4d2466e4865a4e34915665f0e3ad748b818"
+  },
+  "_source": "git://github.com/IgorRubinovich/ir-select.git",
+  "_target": "~0.8.2",
+  "_originalSource": "ir-select"
 }

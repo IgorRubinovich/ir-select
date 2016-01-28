@@ -149,25 +149,25 @@ Handles control characters upon keydown in the textbox.
 
 				case KEYS.DOWN:
 					this._showOverlay();
-					if(!this.$.selectBox.selectedItem)
-						this.$.selectBox.selected = 0;
+					if(!this.$.selectBox.focusedItem)
+						this.$.selectBox._setFocusedItem(this.$.selectBox.items[0]);
 					else
 					{
-						this.$.selectBox.selectNext();
-						while(this.$.selectBox.selectedItem.isHidden)
-							this.$.selectBox.selectNext();
+						this.$.selectBox._focusNext();
+						while(this.$.selectBox.focusedItem.isHidden)
+							this.$.selectBox._focusNext();
 					}
 					break;
 				
 				case KEYS.UP:
 					this._showOverlay();
-					if(!this.$.selectBox.selectedItem)
-						this.$.selectBox.selected = this.suggestions.length - 1;
+					if(!this.$.selectBox.focusedItem)
+						this.$.selectBox._setFocusedItem(this.$.selectBox.items[this.$.selectBox.items.length - 1]);
 					else
 					{
-						this.$.selectBox.selectPrevious();
-						while(this.$.selectBox.selectedItem.isHidden)
-							this.$.selectBox.selectPrevious();
+						this.$.selectBox._focusPrevious();
+						while(this.$.selectBox.focusedItem.isHidden)
+							this.$.selectBox._focusNext();
 					}
 					break;
 				
@@ -238,7 +238,7 @@ Initiates loading of suggestions by optionsLoader
 			}
 			
 			this._fileterSelectedFromSuggested();
-
+			
 			//this.input.focus();
 
 			if(this.$.overlay.opened)
@@ -246,6 +246,14 @@ Initiates loading of suggestions by optionsLoader
 
 			this.$.overlay.open();
 			Polymer.dom.flush();
+
+			this.async(function() {
+				if(this.$.selectBox.focusedItem)
+					this.$.selectBox.focusedItem.blur();
+
+				if(this.$.selectBox.selectedItem)
+					this.$.selectBox.selectedItem = null;
+			});
 		},
 		
 		_onOverlayClosed : function(ev) {
@@ -617,6 +625,10 @@ Select items defined in the array. Previous selection is lost.
 				r = this.get(this.dataPath, this.suggestedOptions);
 			
 			this.set("suggestions", r);
+		},
+		
+		_focusSuggestion : function(ev) {
+			this.$.selectBox._setFocusedItem(ev.target);
 		},
 
 		listeners : {

@@ -126,8 +126,21 @@ Issues and pull requests are most welcome. Fork it [here](https://github.com/Igo
 		input:focus {
 			border : 0;
 			outline : none;
-			border-bottom : 1px solid lightgrey
+			border-bottom : 1px solid lightgrey;
 		}
+		
+		paper-menu {
+			--paper-item-focused : {
+				background-color : transparent;
+			}
+			--paper-item-focused-before : {
+				background-color : transparent;
+			}
+			--paper-item-focused-after : {
+				background-color : transparent;
+			}
+		}
+		
 		#inputDiv iron-selector {
 			background : #ddd;
 		}
@@ -160,7 +173,7 @@ Issues and pull requests are most welcome. Fork it [here](https://github.com/Igo
 		<iron-dropdown on-click="clickedSuggestion" on-iron-overlay-closed="_onOverlayClosed" on-iron-overlay-opened="_onOverlayOpened" vertical-align='top' vertical-offset="25" id='overlay'>
 			<paper-menu class="dropdown-content" id='selectBox'>
 				<template is="dom-repeat" items="{{ suggestions }}">
-					<paper-item item="{{ item }}" hidden$="{{ item.isHidden }}" value="{{ get(valuePath, item) }}">{{ get(labelPath, item) }}</paper-item>
+					<paper-item on-mouseover="_focusSuggestion" item="{{ item }}" hidden$="{{ item.isHidden }}" value="{{ get(valuePath, item) }}">{{ get(labelPath, item) }}</paper-item>
 				</template>
 			</paper-menu>
 		</iron-dropdown>
