@@ -52,6 +52,11 @@ Part of ir-select, tagging-style multiselect box for Polymer 1.0
 		transform : scaleX(0);
 		alpha : .7;
 	}
+	container {
+		@apply(--layout-horizontal);
+		@apply(--layout-center);
+		@apply(--layout-around-justified);
+	}
 	
   </style>
   <template>
@@ -93,7 +98,7 @@ Fired when ir-select-item is attached to DOM.
 		},
 		_labelChanged : function() {
 			Polymer.dom(this).innerHTML = this.label;
-			console.log('setting label', this.label);
+			this.fire('item-attached', this, { cancelable : true });
 		},
 		/** 
 		* Get object representation of the item.

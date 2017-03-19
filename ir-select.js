@@ -300,7 +300,7 @@ Returns selection of ir-select-item elements in the light DOM.
 
 @method getChildItems
 */
-		getChildItems : function() {	
+		getChildItems : function() {
 			return this._getChildren().filter(function(n) { return n.is == 'ir-select-item' });
 		},
 /**
@@ -315,7 +315,7 @@ Get selected data out of the currently selected ir-select-item elements.
 				res = [];
 
 			[].forEach.call(this.getChildItems(), function(o) { 
-				res.push(o.toObject(that.labelField, that.valueField)); 
+				res.push(o.toObject(that.labelPath, that.valuePath)); 
 			})
 						
 			return res;
@@ -428,7 +428,7 @@ Adds a single item to the selection.
 			this.fire('item-added', item);
 			this.fire('change');
 		},
-		
+
 /*
 adds selected suggestion to selection
 @access private
@@ -474,7 +474,7 @@ Updates `.value` attribute when selection changes
 
 			valueArr = !selected.length ? [] : selected
 												// if there's no value use label as value
-												.map(function(o) { return o.value ? o.value : o.label; })
+												.map(function(o) { return o[vp] ? o[vp] : o[lp]; })
 												// filter out empty
 												.filter(function (o) { return o } )
 			
@@ -530,12 +530,14 @@ Select items defined in the array. Previous selection is lost.
 		setSelection: function(selection) 
 		{
 			var that = this,
-				lf = this.labelField,
-				vf = this.valueField;
+				lp = this.labelPath,
+				vp = this.valuePath;
 
 			this.getChildItems().forEach(function(c) { c.close(); });
 				
-			var missingLabels = selection.filter(function(sel) { return !that.get(lf, sel) && that.get(vf, sel) });			
+			(selection || []).forEach(this.addSelection.bind(this))
+			/*
+			var missingLabels = selection.filter(function(sel) { return !that.get(lp, sel) && that.get(vp, sel) });			
 			
 			this._updateValue();
 			
@@ -546,6 +548,7 @@ Select items defined in the array. Previous selection is lost.
 			
 			this.$.selectionLoader.url = constructQuery(this.dataSource, this.queryByValue, missingIdsList);
 			this.$.selectionLoader.generateRequest();			
+			*/
 		},
 		
 		attached : function() {
@@ -579,9 +582,14 @@ Select items defined in the array. Previous selection is lost.
 
 			this.input.type = 'text';
 
-			this.addEventListener('item-attached', function(ev) { 
+			this._observer =
+				Polymer.dom(this.$.contentNode).observeNodes(function(info) {
+					this.debounce('update', this._updateValue, 50);
+				}.bind(this));
+
+			/*this.addEventListener('item-attached', function(ev) { 
 				that._updateValue();
-			});
+			});*/
 
 			this.addEventListener('item-close', function(ev) {
 				delete this.itemInFocus;
@@ -634,13 +642,15 @@ Select items defined in the array. Previous selection is lost.
 		listeners : {
 			"overlay.iron-overlay-closed" : "_onOverlayClosed"
 		},
-				
+		
+		behaviors : [Polymer.IronFormElementBehavior],
+
 		properties : {
 			/** Value to look for when the input box is empty */
 			preType : 				{ type : String,		value : "",				notify : true	},
 
 			/** Selects an entirely new set of values, old values are lost */
-			selected : 				{ type : Array,		value : [],				notify : true	},
+			selected : 				{ type : Array,		value : function() { return [] }, notify : true	},
 
 			/** input placeholder */
 			placeholder : 			{ type : String,	value : "type a tag",	notify : true	},
@@ -705,9 +715,9 @@ like a regular input element. The value of the hidden element reflects the curre
 */
 			name :					{ type : String, value : "" }
 		},
-		
+
 		observers: [
-			// '_selectedChanged(selected.splices)'
+			"setSelection(selected)",
 			"_getSuggestions(suggestedOptions.splice)"
 		],
 		
