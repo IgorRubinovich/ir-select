@@ -268,6 +268,19 @@ Initiates loading of suggestions by optionsLoader
 			});
 		},
 
+		_selectedChanged : function() {
+			var t; 
+			
+			if(!this.get("selected.length"))
+				return;
+			
+			t = {};
+			this.set(this.dataPath, this.selected, t);
+			this.loadedSelection = t;
+			this._setPreselectedOptions();
+		},
+
+		
 /**
 Picks up `ir-select-item`s that are part of the local DOM during initialization
 
@@ -650,7 +663,7 @@ Select items defined in the array. Previous selection is lost.
 			preType : 				{ type : String,		value : "",				notify : true	},
 
 			/** Selects an entirely new set of values, old values are lost */
-			selected : 				{ type : Array,		value : function() { return [] }, notify : true	},
+			selected : 				{ type : Array,		value : function() { return [] }, notify : true, observer : "_selectedChanged"	},
 
 			/** input placeholder */
 			placeholder : 			{ type : String,	value : "type a tag",	notify : true	},
@@ -717,7 +730,7 @@ like a regular input element. The value of the hidden element reflects the curre
 		},
 
 		observers: [
-			"setSelection(selected)",
+			"_selectedChanged(selected,selected.splices)",
 			"_getSuggestions(suggestedOptions.splice)"
 		],
 		
