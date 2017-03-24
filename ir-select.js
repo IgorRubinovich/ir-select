@@ -272,14 +272,31 @@ Initiates loading of suggestions by optionsLoader
 			var t; 
 			
 			if(!this.get("selected.length"))
-				return;
+				return this.clear();
 			
-			t = {};
-			this.set(this.dataPath, this.selected, t);
+			t = this.selected;
+			if(this.dataPath)
+				this.set(this.dataPath, this.selected, t);
+			
 			this.loadedSelection = t;
 			this._setPreselectedOptions();
 		},
 
+		
+/**
+Clears the selection
+
+@method clear
+@access public
+*/
+		clear : function() {
+			var items = this.getChildItems(),
+				p = Polymer.dom(this);
+			
+			items.forEach(i => p.removeChild(i));
+			Polymer.dom.flush()
+			
+		},
 		
 /**
 Picks up `ir-select-item`s that are part of the local DOM during initialization
@@ -290,13 +307,18 @@ Picks up `ir-select-item`s that are part of the local DOM during initialization
 		_setPreselectedOptions : function() {
 			var that = this;
 			
+			this.clear();
+			
 			// reach to the envelope data
-			this.get(this.dataPath, this.loadedSelection)
-				.forEach(function(o) { 
+			(this.dataPath ? this.get(this.dataPath, this.loadedSelection) : this.loadedSelection)
+
+			.forEach(function(o) { 
 					that.addSelection(o) 
 				});
 			
 			this.$.selectionLoader.url = "";
+			
+			this._updateValue()
 		},
 /**
 Shortcut method to access all items in content (ir-select-item and input only)
