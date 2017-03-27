@@ -293,7 +293,7 @@ Clears the selection
 			var items = this.getChildItems(),
 				p = Polymer.dom(this);
 			
-			items.forEach(i => p.removeChild(i));
+			items.forEach(function(i) { p.removeChild(i) });
 			Polymer.dom.flush()
 			
 		},
